@@ -42,6 +42,13 @@ export const Truck = () => {
     return wing;
   };
 
+  const createLights = () => {
+    const geometry = new THREE.CylinderGeometry(2, 2, 2, 12, 1, false, 0);
+    const material = new THREE.MeshLambertMaterial({ color: 0xffffff });
+    const light = new THREE.Mesh(geometry, material);
+    return light;
+  };
+
   const buildTruck = () => {
     const truck = new THREE.Group();
 
@@ -81,6 +88,22 @@ export const Truck = () => {
     rightWing.position.x = -18;
     rightWing.position.z = -14;
     truck.add(rightWing);
+
+    const leftLight = createLights();
+    leftLight.position.y = 8;
+    leftLight.position.x = 40;
+    leftLight.position.z = 12;
+    leftLight.rotation.x = 1.6;
+    leftLight.rotation.z = 1.6;
+    truck.add(leftLight);
+
+    const rightLight = createLights();
+    rightLight.position.y = 8;
+    rightLight.position.x = 40;
+    rightLight.position.z = -12;
+    rightLight.rotation.x = 1.6;
+    rightLight.rotation.z = 1.6;
+    truck.add(rightLight);
 
     return truck;
   };
