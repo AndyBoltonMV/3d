@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import { Car } from "./components/Car";
+import { Truck } from "./components/Truck";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [truckOrCar, setTruckOrCar] = useState();
+  const [isClicked, setIsClicked] = useState(false);
+
+  const clickHandler = (e) => {
+    setIsClicked(true);
+    setTruckOrCar(e.target.value);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <input type="radio" value="car" onClick={clickHandler} /> Car
+      <input type="radio" value="truck" onClick={clickHandler} /> Truck
+      {isClicked && (
+        <>
+          <h1>It's a {truckOrCar}</h1>
+          {truckOrCar === "truck" ? <Truck /> : <Car />}
+        </>
+      )}
     </div>
   );
-}
+};
 
 export default App;
