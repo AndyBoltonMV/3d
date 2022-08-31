@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Car } from "./components/Car";
 import { Truck } from "./components/Truck";
 import "./App.css";
+import { MasterSword } from "./components/MasterSword";
 
 const App = () => {
   const [truckOrCar, setTruckOrCar] = useState();
@@ -14,14 +15,15 @@ const App = () => {
 
   return (
     <div className="App">
-      <input type="radio" value="car" onClick={clickHandler} /> Car
+      <MasterSword />
+      {/* <input type="radio" value="car" onClick={clickHandler} /> Car
       <input type="radio" value="truck" onClick={clickHandler} /> Truck
       {isClicked && (
         <>
           <h1>It's a {truckOrCar}</h1>
           {truckOrCar === "truck" ? <Truck /> : <Car />}
         </>
-      )}
+      )} */}
     </div>
   );
 };
