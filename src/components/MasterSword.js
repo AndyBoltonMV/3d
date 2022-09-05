@@ -1,19 +1,25 @@
 import * as THREE from "three";
 
 export const MasterSword = () => {
-  const scene = new THREE.Scene();
-  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-  renderer.setClearColor(0xffffff, 1);
+  const scene = new THREE.Scene(); //Create scene
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); //Set renderer, antialias for smooth edges, alpha to remove background
+  renderer.setClearColor(0xffffff, 1); //Set background to white
+
+  //Nice shadow handling
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+  //Ambient light softens directional light
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
 
+  //Directional light to work with shadow map
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
   directionalLight.position.set(100, 500, 300);
   directionalLight.castShadow = true;
   scene.add(directionalLight);
 
+  //Handling camera size and perspective
   const aspectRatio = window.innerWidth / window.innerHeight;
   const cameraWidth = 150;
   const cameraHeight = cameraWidth / aspectRatio;
@@ -28,13 +34,14 @@ export const MasterSword = () => {
   camera.position.set(200, 200, 200);
   camera.lookAt(scene.position);
 
+  //Function for creating Triforce triple triangle group
   const createTriforce = () => {
     const triforce = new THREE.Group();
 
     const shape = new THREE.Shape();
     shape.moveTo(0, 0);
     shape.lineTo(3.75, 0);
-    shape.lineTo(0, 6.495);
+    shape.lineTo(0, 6.495); //Quick Maffs
     shape.lineTo(-3.75, 0);
     const extrudeSettings = {
       steps: 2,
@@ -66,6 +73,7 @@ export const MasterSword = () => {
     return triforce;
   };
 
+  //Function for creating the pedestal
   const createPedestal = () => {
     const pedestal = new THREE.Group();
 
@@ -81,6 +89,7 @@ export const MasterSword = () => {
     top.position.y = 12;
     pedestal.add(top);
 
+    //Adding Triforce to pedestal
     const triforce = createTriforce();
     triforce.position.x = 22;
     pedestal.add(triforce);
@@ -88,6 +97,7 @@ export const MasterSword = () => {
     return pedestal;
   };
 
+  //Function for creating Sword
   const createSword = () => {
     const sword = new THREE.Group();
 
@@ -100,6 +110,7 @@ export const MasterSword = () => {
     blade.position.y = 30;
     sword.add(blade);
 
+    //Cross guard needed to be drawn with lineTo method
     const x = 0;
     const y = 0;
     const guardShape = new THREE.Shape();
@@ -153,9 +164,20 @@ export const MasterSword = () => {
     pommel.position.y = 89;
     sword.add(pommel);
 
+    //Add Triforce to blade and orient it
+    const triforce = createTriforce();
+    triforce.position.y += 62;
+    triforce.position.x += 1;
+    triforce.position.z -= 1.5;
+    triforce.rotation.z = 1.05;
+    triforce.scale.set(0.3, 0.3, 0.3);
+
+    sword.add(triforce);
+
     return sword;
   };
 
+  //Init method that brings all the individual models together
   const createModel = () => {
     const model = new THREE.Group();
     const pedestal = createPedestal();
